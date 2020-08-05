@@ -15,25 +15,25 @@ This repository contains code written for seizure spike detection and jitter ana
 
 5. The data will be graphed onto the GUI. Take the following steps in order to record spike times of the seizure waveform.
 
-a. Zoom into one seizure waveform.
+    a. Zoom into one seizure waveform.
 
-b. Click "Find Spikes (algorithm)" button to find spikes in the waveform.
+    b. Click "Find Spikes (algorithm)" button to find spikes in the waveform.
 
-c. If there are spikes the algorithm missed, click "Add spike" and click a point on the graph to add one additional spike time.
+    c. If there are spikes the algorithm missed, click "Add spike" and click a point on the graph to add one additional spike time.
 
-d. If there are spikes that the algorithm incorrectly added, click "Remove Spike" and then click on the figure window the location of the spike to remove. 
+    d. If there are spikes that the algorithm incorrectly added, click "Remove Spike" and then click on the figure window the location of the spike to remove. 
 
-e. To set an alignment spike, click "Set Alignment Spike" button on the bottom right of the GUI. Click a point on the graph that most closely represents the alignment spike.
+    e. To set an alignment spike, click "Set Alignment Spike" button on the bottom right of the GUI. Click a point on the graph that most closely represents the alignment spike.
 
-f. If you zoom in or out on the figure, the spike time labels will be off. You can "Re-plot Peak Labels" to make the arrows match again.
+    f. If you zoom in or out on the figure, the spike time labels will be off. You can "Re-plot Peak Labels" to make the arrows match again.
 
-g. In order to save the spike times for the seizure, click the Finished Burst button. It should then be added to the Bursts list. You can edit the burst again by double clicking on it in the list. 
+    g. In order to save the spike times for the seizure, click the Finished Burst button. It should then be added to the Bursts list. You can edit the burst again by double            clicking on it in the list. 
 
-h. Repeat the above steps to find more spike times of a different seizure.
+    h. Repeat the above steps to find more spike times of a different seizure.
 
-i. You can change the Find spikes algorithm parameters on the bottom if a seizure has lower/higher voltage than typical seizures.
+    i. You can change the Find spikes algorithm parameters on the bottom if a seizure has lower/higher voltage than typical seizures.
 
-j. Close out of the window. The spike times and peak values are returned. Each column is a new seizure/burst analyzed and each row is a new spike. The spike times and spike intervals are saved to an excel file with the same name as the .mat data file (except with "_Spike_Times" appended to the end).
+    j. Close out of the window. The spike times and peak values are returned. Each column is a new seizure/burst analyzed and each row is a new spike. The spike times and spike        intervals are saved to an excel file with the same name as the .mat data file (except with "_Spike_Times" appended to the end).
 
 6. A new window opens that allows you to find the jitter of the spike times recorded.
 
