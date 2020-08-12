@@ -27,7 +27,7 @@ This repository contains code written for seizure spike detection and jitter ana
 
     f. If you zoom in or out on the figure, the spike time labels will be off. You can "Re-plot Peak Labels" to make the arrows match again.
 
-    g. In order to save the spike times for the seizure, click the Finished Burst button. It should then be added to the Bursts list. You can edit the burst again by double            clicking on it in the list. 
+    g. In order to save the spike times for the seizure, click the Save Burst button. It should then be added to the Bursts list. You can edit the burst again by double            clicking on it in the list. 
 
     h. Repeat the above steps to find more spike times of a different seizure.
 
