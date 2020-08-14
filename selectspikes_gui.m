@@ -858,7 +858,7 @@ else
                 index = index+1;
                 %Save the seizure spike time data to an excel file
                 xlswrite([filename '.xlsx'],['Spike Timings (s)';num2cell(spike_time1)],index, 'A1')
-                xlswrite([filename '.xlsx'],['Alignment Spike';num2cell(align_spike(:,burst))],index,'C1')
+                xlswrite([filename '.xlsx'],['Alignment Spike';num2cell(userData.align_spike(:,burst))],index,'C1')
             end
         end
         userData.saved = 1; %We saved data
