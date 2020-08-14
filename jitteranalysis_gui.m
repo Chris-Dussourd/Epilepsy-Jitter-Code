@@ -207,21 +207,44 @@ else
             delete([filename '.xlsx'])
         end
         jitter_ave = userData.jitter_ave;
-        writecell({'Burst Number','Burst Number','Jitter %'},[filename '.xlsx'])
-        %Store the spike jitter in an excel spreadsheet
-        jitter_count=0;
-        for burst1 = 1:size(jitter_ave,1)
-            for burst2 = 1:size(jitter_ave,2)
-                if burst1<burst2
-                    row = num2str(jitter_count+2);
-                    writematrix([burst1;burst2;jitter_ave(burst1,burst2)]',[filename '.xlsx'],'Range',['A' row ':C' row])
-                    jitter_count = jitter_count+1;
+        
+        %Get the version number. If before R2019a, use xlswrite instead of writecell
+        mat_version = version;
+        mat_version_year = str2num(mat_version(find(mat_version=='R')+1:find(mat_version=='R')+4));
+        
+        if mat_version_year >= 2019
+            writecell({'Burst Number','Burst Number','Jitter %'},[filename '.xlsx'])
+            %Store the spike jitter in an excel spreadsheet
+            jitter_count=0;
+            for burst1 = 1:size(jitter_ave,1)
+                for burst2 = 1:size(jitter_ave,2)
+                    if burst1<burst2
+                        row = num2str(jitter_count+2);
+                        writematrix([burst1;burst2;jitter_ave(burst1,burst2)]',[filename '.xlsx'],'Range',['A' row ':C' row])
+                        jitter_count = jitter_count+1;
+                    end
                 end
             end
+            %Store the overall jitter in an excel spreadsheet
+            row = num2str(jitter_count+3);
+            writecell({'Overall Jitter',userData.jitter_overall},[filename '.xlsx'],'Range',['A' row ':B' row])
+        else
+            xlswrite([filename '.xlsx'],{'Burst Number','Burst Number','Jitter %'})
+            %Store the spike jitter in an excel spreadsheet
+            jitter_count=0;
+            for burst1 = 1:size(jitter_ave,1)
+                for burst2 = 1:size(jitter_ave,2)
+                    if burst1<burst2
+                        row = num2str(jitter_count+2);
+                        xlswrite([filename '.xlsx'],[burst1;burst2;jitter_ave(burst1,burst2)]',1,['A' row])
+                        jitter_count = jitter_count+1;
+                    end
+                end
+            end
+            %Store the overall jitter in an excel spreadsheet
+            row = num2str(jitter_count+3);
+            xlswrite([filename '.xlsx'],{'Overall Jitter',userData.jitter_overall},1,['A' row])
         end
-        %Store the overall jitter in an excel spreadsheet
-        row = num2str(jitter_count+3);
-        writecell({'Overall Jitter',userData.jitter_overall},[filename '.xlsx'],'Range',['A' row ':B' row])
     end
 end
 

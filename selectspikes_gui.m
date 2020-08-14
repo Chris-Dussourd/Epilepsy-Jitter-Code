@@ -478,7 +478,7 @@ plot_length_2 = max(max(userData.spike_time(:,burst))-align_spike(:,burst));    
 data = userData.data;
 scanFreq = userData.scanFreq;
 data_x = (1:length(data))/(scanFreq);
-figure('Units','Normalized','Position',[0 0 1 1]);
+figure('Units','Normalized','Position',[0 0.1 1 0.9]);
 
 %Make plots of all bursts selected
 for i = 1:length(burst)
@@ -833,15 +833,33 @@ else
         userData.align_spike = userData.align_spike(:,sort_index);
         
         index=0;
-        %For each burst, save the spike times in a new sheet of an excel file
-        for burst = 1:size(userData.spike_time,2)
-            %Take out the non-zero spike_times from the matrix
-            spike_time1 = userData.spike_time(:,burst);
-            spike_time1 = spike_time1(spike_time1~=0);
-            index = index+1;
-            %Save the seizure spike time data to an excel file
-            writecell(['Spike Timings (s)';num2cell(spike_time1)],[filename '.xlsx'],'Sheet',index,'Range','A:A')
-            writecell(['Alignment Spike';num2cell(userData.align_spike(:,burst))],[filename '.xlsx'],'Sheet',index,'Range','C:C')
+        
+        %Get the version number. If before R2019a, use xlswrite instead of writecell
+        mat_version = version;
+        mat_version_year = str2num(mat_version(find(mat_version=='R')+1:find(mat_version=='R')+4));
+        
+        if mat_version_year >= 2019
+            %For each burst, save the spike times in a new sheet of an excel file
+            for burst = 1:size(userData.spike_time,2)
+                %Take out the non-zero spike_times from the matrix
+                spike_time1 = userData.spike_time(:,burst);
+                spike_time1 = spike_time1(spike_time1~=0);
+                index = index+1;
+                %Save the seizure spike time data to an excel file
+                writecell(['Spike Timings (s)';num2cell(spike_time1)],[filename '.xlsx'],'Sheet',index,'Range','A:A')
+                writecell(['Alignment Spike';num2cell(userData.align_spike(:,burst))],[filename '.xlsx'],'Sheet',index,'Range','C:C')
+            end
+        else
+            %For each burst, save the spike times in a new sheet of an excel file
+            for burst = 1:size(userData.spike_time,2)
+                %Take out the non-zero spike_times from the matrix
+                spike_time1 = userData.spike_time(:,burst);
+                spike_time1 = spike_time1(spike_time1~=0);
+                index = index+1;
+                %Save the seizure spike time data to an excel file
+                xlswrite([filename '.xlsx'],['Spike Timings (s)';num2cell(spike_time1)],index, 'A1')
+                xlswrite([filename '.xlsx'],['Alignment Spike';num2cell(align_spike(:,burst))],index,'C1')
+            end
         end
         userData.saved = 1; %We saved data
         set(handles.maingui_fig,'UserData',userData);
