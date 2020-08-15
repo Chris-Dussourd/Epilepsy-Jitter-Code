@@ -261,14 +261,32 @@ userData = get(handles.maingui_fig,'UserData');
 %Prompt user for an excel that contains spike times
 [filename,path] = uigetfile('*.xlsx');
 
-%Get the sheet names of the file
-sheet_names = sheetnames([path filename]);
-clear spike_time align_spike
-for i = 1:length(sheet_names)
-    num_spikes = length(readmatrix([path filename],'Sheet',sheet_names(i),'Range','A2:A1000'));
-    spike_times(1:num_spikes,i) = readmatrix([path filename],'Sheet',sheet_names(i),'Range','A2:A1000');
-    temp_align = readmatrix([path filename],'Sheet',sheet_names(i),'Range','C2:C2');
-    align_spike(1,i)=temp_align(1);
+%Get the version number. If before R2019a, use xlsread instead of readmatrix
+mat_version = version;
+mat_version_year = str2num(mat_version(find(mat_version=='R')+1:find(mat_version=='R')+4));
+
+if mat_version_year >= 2019
+    %Get the sheet names of the file
+    sheet_names = sheetnames([path filename]);
+    clear spike_time align_spike
+    for i = 1:length(sheet_names)
+        num_spikes = length(readmatrix([path filename],'Sheet',sheet_names(i),'Range','A2:A1000'));
+        spike_times(1:num_spikes,i) = readmatrix([path filename],'Sheet',sheet_names(i),'Range','A2:A1000');
+        temp_align = readmatrix([path filename],'Sheet',sheet_names(i),'Range','C2:C2');
+        align_spike(1,i)=temp_align(1);
+    end
+else
+    [~,sheets] = xlsfinfo([path filename]);
+    num_sheets = numel(sheets);
+    j=1;
+    clear spike_time align_spike peak_value
+    for i = 1:num_sheets
+        num_spikes = length(xlsread([path filename],i,'A2:A1000'));
+        spike_times(1:num_spikes,j) = xlsread([path filename],i,'A2:A1000');
+        align_spike(1,j) = xlsread([path filename],i,'C2');
+        j = j+1;
+    end
+    
 end
 
 %Save the spikes and align spike into user data
