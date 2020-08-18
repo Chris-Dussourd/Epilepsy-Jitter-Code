@@ -19,17 +19,9 @@ load([path filename])
 %Filter the data
 channel_filtered = filter_data(channel,scanFreq,low_cut);
 
-%Take out a sampled version of the data to decrease processing time if over 2000 samples per second
-if scanFreq/1000 > 2
-    data_frequency = scanFreq/(floor(scanFreq/1000));
-    data_filtered = channel_filtered(1:floor(scanFreq/1000):end);
-else
-    data_frequency = scanFreq;
-    data_filtered = channel_filtered;
-end
 
 %Call the spike detection GUI.
-[spike_time, peak_value,align_spike] = selectspikes_gui(data_filtered,data_frequency);
+[spike_time, peak_value,align_spike] = selectspikes_gui(channel_filtered,scanFreq);
 
 %Call the jitter analysis GUI.
 jitteranalysis_gui(spike_time,align_spike);
