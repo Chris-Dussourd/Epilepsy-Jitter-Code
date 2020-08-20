@@ -425,11 +425,12 @@ function saveburst_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-%Remove Peak Arrow Annotations from previous burst
-delete(findall(gcf,'Tag','Peak Arrows'))
 %Increase burst number by one
 userData = get(handles.maingui_fig,'UserData');
 if length(userData.align_spike) == userData.burst
+    %Remove Peak Arrow Annotations from previous burst
+    delete(findall(gcf,'Tag','Peak Arrows'))
+
     spike_time = userData.spike_time(:,userData.burst);
     peak_value = userData.peak_value(:,userData.burst);
     peak_value = peak_value(spike_time~=0);
@@ -791,10 +792,18 @@ userData = get(handles.maingui_fig,'UserData');
 burst = userData.burst;
 %Get the data point from the data cursor
 [spike_time_temp,~] = ginput(1);
+h_axes = handles.burst_recording;
+
+%Replace the old align spike with a black arrow if an alignment spike was already set
+if size(userData.align_spike)>=burst
+   [~,align_index] = min(abs(userData.align_spike(1,burst)-userData.spike_time(:,burst)));
+   plot_peakpoints(userData.spike_time(align_index,burst),userData.peak_value(align_index,burst),h_axes,'k')
+end
+
+%Get the index of the new alignment spike
 [~,align_index] = min(abs(spike_time_temp-userData.spike_time(:,burst)));
 userData.align_spike(1,burst) = userData.spike_time(align_index,burst);
 %Plot the alignment spike in red
-h_axes = handles.burst_recording;
 plot_peakpoints(userData.spike_time(align_index,burst),userData.peak_value(align_index,burst),h_axes,'r');
 set(handles.maingui_fig,'UserData',userData);
 
