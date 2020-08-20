@@ -5,13 +5,15 @@ This repository contains code written for seizure spike detection and jitter ana
 
 # To run this code. 
 
+I recommend reviewing the user guide. Quick start instructions are provided below.
+
 1. Download all .m files into the same directory.
 
 2. Open Seizure_Detection_And_Jitter_Analysis_Main in MATLAB. Run the code.
 
-3. The seizure detection GUI will pop up and prompt you for a file to analyze. 
+3. Select a .mat recording file.
 
-4. Select one of the files of data to analyze (Ex: MEA_MT5_Chan0to3_Recording.mat).
+4. Select spike time data (optional)
 
 5. The data will be graphed onto the GUI. Take the following steps in order to record spike times of the seizure waveform.
 
@@ -32,8 +34,10 @@ This repository contains code written for seizure spike detection and jitter ana
     h. Repeat the above steps to find more spike times of a different seizure.
 
     i. You can change the Find spikes algorithm parameters on the bottom if a seizure has lower/higher voltage than typical seizures.
+    
+    j. Save the spike time data to an excel file by filling out a filename and clicking Save Analysis.
 
-    j. Close out of the window. The spike times and peak values are returned. Each column is a new seizure/burst analyzed and each row is a new spike. The spike times and spike        intervals are saved to an excel file with the same name as the .mat data file (except with "_Spike_Times" appended to the end).
+    k. Close out of the window. The spike times and peak values are returned. Each column is a new seizure/burst analyzed and each row is a new spike.
 
 6. A new window opens that allows you to find the jitter of the spike times recorded.
 
@@ -56,6 +60,11 @@ findspikes.m: Uses the lower threshold, upper threshold, min spike period, max s
 
 filter_data.m: Uses a band-stop filter to filter out 60 Hz, and a 4th order Butterworth high pass filter.
 
+jitteranalysis_gui.m: Graphical user interface to find the jitter between spike times of different bursts.
+
+jitteranlaysis_gui.fig: The figure needed for the jitter analysis graphical user interface.
+
+MATLAB recording files: MEA_recording.mat, iMW_Recording.mat, sMW_Recording.mat
 
 # Abstract:
 
