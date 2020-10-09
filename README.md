@@ -2,6 +2,8 @@
 
 This repository contains code written for seizure spike detection and jitter analysis for Professor Yevgeny Berdichevsky's lab (https://www.lehigh.edu/~yeb211/) at Lehigh University. See the abstract of the work complete for this lab at the bottom of this ReadMe.
 
+I recommend reading the Spike_Detection_User_Guide.docx before getting started.
+
 
 # To run this code. 
 
